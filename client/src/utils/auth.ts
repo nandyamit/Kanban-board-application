@@ -1,9 +1,16 @@
-import { JwtPayload, jwtDecode } from 'jwt-decode';
+// client/src/utils/auth.ts
+import { jwtDecode } from 'jwt-decode';
+
+interface DecodedToken {
+  id: number;
+  username: string;
+  exp: number;
+}
 
 class AuthService {
   getProfile() {
     const token = this.getToken();
-    return token ? jwtDecode<JwtPayload>(token) : null;
+    return token ? jwtDecode<DecodedToken>(token) : null;
   }
 
   loggedIn() {
@@ -12,11 +19,15 @@ class AuthService {
   }
   
   isTokenExpired(token: string) {
-    const decoded = jwtDecode<JwtPayload & { exp: number }>(token);
-    return decoded.exp < Date.now() / 1000;
+    try {
+      const decoded = jwtDecode<DecodedToken>(token);
+      return decoded.exp < Date.now() / 1000;
+    } catch {
+      return true;
+    }
   }
 
-  getToken(): string {
+  getToken() {
     return localStorage.getItem('token') || '';
   }
 
@@ -28,6 +39,24 @@ class AuthService {
   logout() {
     localStorage.removeItem('token');
     window.location.assign('/login');
+  }
+
+  // Add auto logout check
+  checkTokenExpiration() {
+    if (this.loggedIn()) {
+      const token = this.getToken();
+      const decoded = jwtDecode<DecodedToken>(token);
+      const timeToExpire = (decoded.exp * 1000) - Date.now();
+      
+      if (timeToExpire > 0) {
+        // Set timeout to logout when token expires
+        setTimeout(() => {
+          this.logout();
+        }, timeToExpire);
+      } else {
+        this.logout();
+      }
+    }
   }
 }
 
