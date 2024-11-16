@@ -1,4 +1,5 @@
 // client/src/api/ticketAPI.tsx
+import { API_BASE_URL } from '../utils/config';
 import Auth from '../utils/auth';
 import { TicketData } from '../interfaces/TicketData';
 
@@ -7,9 +8,9 @@ const getAuthHeaders = () => ({
   'Authorization': `Bearer ${Auth.getToken()}`
 });
 
-const getTickets = async () => {
+const retrieveTickets = async () => {
   try {
-    const response = await fetch('http://localhost:3001/api/tickets', {
+    const response = await fetch(`${API_BASE_URL}/api/tickets`, {
       headers: getAuthHeaders()
     });
 
@@ -24,9 +25,26 @@ const getTickets = async () => {
   }
 };
 
+const retrieveTicket = async (id: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
+      headers: getAuthHeaders()
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch ticket');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching ticket:', error);
+    throw error;
+  }
+};
+
 const createTicket = async (ticketData: TicketData) => {
   try {
-    const response = await fetch('http://localhost:3001/api/tickets', {
+    const response = await fetch(`${API_BASE_URL}/api/tickets`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(ticketData)
@@ -45,7 +63,7 @@ const createTicket = async (ticketData: TicketData) => {
 
 const updateTicket = async (id: number, ticketData: TicketData) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/tickets/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(ticketData)
@@ -64,7 +82,7 @@ const updateTicket = async (id: number, ticketData: TicketData) => {
 
 const deleteTicket = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/tickets/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     });
@@ -80,4 +98,10 @@ const deleteTicket = async (id: number) => {
   }
 };
 
-export { getTickets, createTicket, updateTicket, deleteTicket };
+export { 
+  retrieveTickets, 
+  retrieveTicket, 
+  createTicket, 
+  updateTicket, 
+  deleteTicket 
+};

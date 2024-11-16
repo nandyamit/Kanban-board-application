@@ -1,20 +1,23 @@
 // client/src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Board from './pages/Board';
 import Login from './pages/Login';
 import CreateTicket from './pages/CreateTicket';
 import EditTicket from './pages/EditTicket';
 import ErrorPage from './pages/ErrorPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
+import Auth from './utils/auth';
 
 function App() {
   return (
-    <Router>
+    <>
+      <Navbar />
       <Routes>
-        {/* Public route */}
-        <Route path="/login" element={<Login />} />
-
-        {/* Protected routes */}
+        <Route path="/login" element={
+          Auth.loggedIn() ? <Navigate to="/" replace /> : <Login />
+        } />
+        
         <Route path="/" element={
           <ProtectedRoute>
             <Board />
@@ -32,11 +35,10 @@ function App() {
             <EditTicket />
           </ProtectedRoute>
         } />
-
-        {/* Error route */}
+        
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

@@ -1,35 +1,43 @@
+// client/src/components/TicketCard.tsx
 import { Link } from 'react-router-dom';
-
 import { TicketData } from '../interfaces/TicketData';
-import { ApiMessage } from '../interfaces/ApiMessage';
-import { MouseEventHandler } from 'react';
 
 interface TicketCardProps {
   ticket: TicketData;
-  deleteTicket: (ticketId: number) => Promise<ApiMessage>
+  deleteTicket: (id: number) => Promise<any>;
 }
 
-const TicketCard = ({ ticket, deleteTicket }: TicketCardProps) => {
-
-  const handleDelete: MouseEventHandler<HTMLButtonElement> = async (event) => {
-    const ticketId = Number(event.currentTarget.value);
-    if (!isNaN(ticketId)) {
-      try {
-        const data = await deleteTicket(ticketId);
-        return data;
-      } catch (error) {
-        console.error('Failed to delete ticket:', error);
-      }
+const TicketCard: React.FC<TicketCardProps> = ({ ticket, deleteTicket }) => {
+  const handleDelete = async () => {
+    try {
+      await deleteTicket(ticket.id);
+    } catch (err) {
+      console.error('Failed to delete ticket:', err);
     }
   };
 
+  // Extract assignedUser value safely
+  const assignedUserName = typeof ticket.assignedUser === 'string' 
+    ? ticket.assignedUser 
+    : ticket.assignedUser?.username || 'Unassigned';
+
   return (
-    <div className='ticket-card'>
-      <h3>{ticket.name}</h3>
-      <p>{ticket.description}</p>
-      <p>{ticket.assignedUser?.username}</p>
-      <Link to='/edit' state={{id: ticket.id}} type='button' className='editBtn'>Edit</Link>
-      <button type='button' value={String(ticket.id)} onClick={handleDelete} className='deleteBtn'>Delete</button>
+    <div className="ticket-card">
+      <div className="ticket-content">
+        <h3>{ticket.name}</h3>
+        <p>{ticket.description}</p>
+        <p>Status: {ticket.status}</p>
+        <p>Assigned to: {assignedUserName}</p>
+      </div>
+      <div className="ticket-actions">
+        <Link
+          to={`/edit/${ticket.id}`}
+          state={ticket}
+        >
+          Edit
+        </Link>
+        <button onClick={handleDelete}>Delete</button>
+      </div>
     </div>
   );
 };

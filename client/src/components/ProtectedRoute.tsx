@@ -6,16 +6,15 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  // Check if user is logged in
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const isLoggedIn = Auth.loggedIn();
+  console.log('ProtectedRoute - Auth Status:', isLoggedIn); // Debug log
 
-  // Redirect to login if not logged in
   if (!isLoggedIn) {
+    console.log('Not authenticated, redirecting to login'); // Debug log
     return <Navigate to="/login" replace />;
   }
 
-  // Render children if logged in
   return <>{children}</>;
 };
 

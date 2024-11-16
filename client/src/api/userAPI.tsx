@@ -1,4 +1,5 @@
 // client/src/api/userAPI.tsx
+import { API_BASE_URL } from '../utils/config';
 import Auth from '../utils/auth';
 import { UserData } from '../interfaces/UserData';
 
@@ -7,9 +8,9 @@ const getAuthHeaders = () => ({
   'Authorization': `Bearer ${Auth.getToken()}`
 });
 
-const getUsers = async () => {
+const retrieveUsers = async () => {
   try {
-    const response = await fetch('http://localhost:3001/api/users', {
+    const response = await fetch(`${API_BASE_URL}/api/users`, {
       headers: getAuthHeaders()
     });
 
@@ -26,7 +27,7 @@ const getUsers = async () => {
 
 const getUser = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/users/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
       headers: getAuthHeaders()
     });
 
@@ -43,7 +44,7 @@ const getUser = async (id: number) => {
 
 const updateUser = async (id: number, userData: UserData) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/users/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(userData)
@@ -60,4 +61,4 @@ const updateUser = async (id: number, userData: UserData) => {
   }
 };
 
-export { getUsers, getUser, updateUser };
+export { retrieveUsers, getUser, updateUser };

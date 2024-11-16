@@ -1,13 +1,19 @@
+// server/src/server.ts
 const forceDatabaseRefresh = false;
 
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
 import routes from './routes/index.js';
 import { sequelize } from './models/index.js';
 import { User } from './models/user.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,37 +25,32 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Debug endpoint
-app.get('/debug/users', async (_req: Request, res: Response) => {
-  try {
-    const users = await User.findAll({ 
-      attributes: ['id', 'username'],
-      raw: true 
-    });
-    console.log('Debug: Found users:', users);
-    res.json(users);
-  } catch (error: any) {
-    console.error('Debug error:', error);
-    res.status(500).json({ error: error?.message || 'Unknown error occurred' });
-  }
-});
-
-// Debug middleware to log all requests
-app.use((req: Request, _res: Response, next: NextFunction) => {
-  console.log(`${req.method} ${req.path}`, req.body);
+// Log all requests
+app.use((_req, _res, next) => {
+  console.log(`${_req.method} ${_req.path}`);
   next();
 });
 
+// API Routes
 app.use(routes);
-app.use(express.static('../client/dist'));
 
+// Serve static files
+app.use('/assets', express.static(path.join(__dirname, '../../client/dist/assets')));
+app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+// Handle React routing
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
+});
+
+// Database connection and server start
 sequelize.sync({force: forceDatabaseRefresh}).then(async () => {
   console.log('Database connected');
   
-  // Check for seeded user on startup
   try {
     const user = await User.findOne({ 
       where: { username: 'JollyGuru' },

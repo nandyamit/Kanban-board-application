@@ -1,10 +1,9 @@
-import { UserData } from './UserData';
-
+// client/src/interfaces/TicketData.tsx
 export interface TicketData {
-  id: number | null;
-  name: string | null;
-  description: string | null;
-  status: string | null;
-  assignedUserId: number | null;
-  assignedUser: UserData | null;
+  id: number;
+  name: string;
+  description: string;
+  status: string;
+  assignedUserId: number;
+  assignedUser: string | { username: string } | null;
 }
