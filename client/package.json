@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "clean": "rimraf node_modules/.cache",
-    "build": "npm run clean && tsc && vite build",
+    "clean": "rm -rf node_modules/.cache dist",  
+    "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
