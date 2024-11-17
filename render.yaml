@@ -1,10 +1,9 @@
-# render.yaml
 services:
   - type: web
     name: kanban-board
     env: node
-    buildCommand: npm run install-all && npm run build
-    startCommand: npm start
+    buildCommand: cd client && npm install -g typescript && npm install && npm run build
+    startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV
         value: production
