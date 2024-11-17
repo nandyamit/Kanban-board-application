@@ -1,5 +1,5 @@
 // client/src/api/authAPI.tsx
-import { API_BASE_URL } from '../utils/config';
+import { API_BASE_URL } from "../utils/config";
 import { UserLogin } from "../interfaces/UserLogin";
 
 const login = async (userInfo: UserLogin) => {
@@ -15,14 +15,15 @@ const login = async (userInfo: UserLogin) => {
     const data = await response.json();
     
     if (!response.ok) {
-      throw new Error(data.message || 'Failed to login');
+      throw new Error(data.message || 'Invalid username or password');
     }
 
-    console.log('Login successful:', data);
     return data;
-  } catch (error) {
-    console.error('Login error:', error);
-    throw error;
+  } catch (error: any) {
+    if (error.message) {
+      throw new Error(error.message);
+    }
+    throw new Error('An error occurred during login. Please try again.');
   }
 };
 
