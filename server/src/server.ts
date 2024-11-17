@@ -3,7 +3,7 @@ const forceDatabaseRefresh = false;
 
 import dotenv from 'dotenv';
 dotenv.config();
-
+import { safeSeed } from './seeds/production-seed.js';  // Add this import
 import express from 'express';
 import cors from 'cors';
 import routes from './routes/index.js';
@@ -51,6 +51,12 @@ sequelize.sync({force: forceDatabaseRefresh}).then(async () => {
   console.log('Database connected');
   
   try {
+    // Run safe seeding if in production
+    if (process.env.NODE_ENV === 'production') {
+      await safeSeed();
+    }
+    
+    // Check for seeded user
     const user = await User.findOne({ 
       where: { username: 'JollyGuru' },
       attributes: ['id', 'username']
@@ -64,4 +70,3 @@ sequelize.sync({force: forceDatabaseRefresh}).then(async () => {
     console.log(`Server is listening on port ${PORT}`);
   });
 });
-

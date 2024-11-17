@@ -1,13 +1,15 @@
 // components/TicketCard.tsx
 import { Link } from 'react-router-dom';
 import { TicketData } from '../interfaces/TicketData';
+import { ApiMessage } from '../interfaces/ApiMessage';
 
 interface TicketCardProps {
   ticket: TicketData;
-  deleteTicket: (id: number) => Promise<any>;
+  deleteTicket: (id: number) => Promise<ApiMessage>;
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({ ticket, deleteTicket }) => {
+
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this ticket?')) {
       try {

@@ -7,9 +7,10 @@ interface SwimlaneProps {
   title: string;
   tickets: TicketData[];
   deleteTicket: (ticketId: number) => Promise<ApiMessage>
+  key?: string;
 }
 
-const Swimlane = ({ title, tickets, deleteTicket }: SwimlaneProps) => {
+const Swimlane: React.FC<SwimlaneProps> = ({ title, tickets, deleteTicket }) => {
   const getStatusClass = (status: string) => {
     switch (status) {
       case 'Todo':

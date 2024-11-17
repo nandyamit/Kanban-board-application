@@ -3,11 +3,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 
-const Navbar = () => {
+interface UserProfile {
+  username?: string;
+}
+
+const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const isLoggedIn = Auth.loggedIn();
-  const userProfile = Auth.getProfile();
+  const userProfile = Auth.getProfile() as UserProfile;
 
   // Close menu when clicking outside
   useEffect(() => {
