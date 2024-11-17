@@ -25,6 +25,9 @@ const CreateTicket = () => {
     try {
       const data = await retrieveUsers();
       setUsers(data);
+      if (data.length > 0 && !newTicket.assignedUserId) {
+        setNewTicket(prev => ({ ...prev, assignedUserId: data[0].id }));
+      }
     } catch (err) {
       setError('Failed to load users');
       console.error('Failed to retrieve user info:', err);
@@ -57,7 +60,7 @@ const CreateTicket = () => {
     const { name, value } = e.target;
     setNewTicket(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'assignedUserId' ? parseInt(value, 10) : value
     }));
   };
 
@@ -125,12 +128,15 @@ const CreateTicket = () => {
               <select
                 id="assignedUserId"
                 name="assignedUserId"
-                value={newTicket.assignedUserId}
+                value={String(newTicket.assignedUserId)}
                 onChange={handleChange}
                 className="form-select"
               >
                 {users.map(user => (
-                  <option key={user.id} value={user.id}>
+                  <option 
+                    key={user.id} 
+                    value={String(user.id)}
+                  >
                     {user.username}
                   </option>
                 ))}

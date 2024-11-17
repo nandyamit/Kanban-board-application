@@ -6,4 +6,5 @@ export interface TicketData {
   status: string;
   assignedUserId: number;
   assignedUser: string | { username: string } | null;
+  
 }

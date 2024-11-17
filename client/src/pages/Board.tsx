@@ -10,7 +10,7 @@ import auth from '../utils/auth';
 
 const boardStates = ['Todo', 'In Progress', 'Done'];
 
-type SortField = 'name' | 'status' | 'assignedUser';
+type SortField = keyof Pick<TicketData, 'name' | 'status' | 'assignedUser'>;
 type SortDirection = 'asc' | 'desc';
 
 const Board = () => {
@@ -86,12 +86,15 @@ const Board = () => {
       result = result.filter(ticket => ticket.status === statusFilter);
     }
 
-    // Apply sorting
+    // Apply sorting with type safety
     result.sort((a, b) => {
+      const valueA = String(a[sortField] || '');
+      const valueB = String(b[sortField] || '');
+
       if (sortDirection === 'asc') {
-        return a[sortField] > b[sortField] ? 1 : -1;
+        return valueA.localeCompare(valueB);
       }
-      return a[sortField] < b[sortField] ? 1 : -1;
+      return valueB.localeCompare(valueA);
     });
 
     setFilteredTickets(result);
