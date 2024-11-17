@@ -1,10 +1,17 @@
 // client/src/pages/EditTicket.tsx
+import React from 'react';
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { retrieveTicket, updateTicket } from '../api/ticketAPI';
+import { updateTicket, retrieveTicket } from '../api/ticketAPI';  // Make sure this import matches your actual API file
 import { TicketData } from '../interfaces/TicketData';
+import { ApiMessage } from '../interfaces/ApiMessage';
 
-const EditTicket = () => {
+interface LocationState {
+  id: number;
+  [key: string]: unknown;
+}
+
+const EditTicket = (): JSX.Element => {
   const [ticket, setTicket] = useState<TicketData | undefined>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -13,7 +20,7 @@ const EditTicket = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const fetchTicket = async (ticketData: TicketData) => {
+  const fetchTicketData = async (ticketData: LocationState) => {
     setLoading(true);
     try {
       const data = await retrieveTicket(ticketData.id);
@@ -28,7 +35,7 @@ const EditTicket = () => {
 
   useEffect(() => {
     if (state && 'id' in state) {
-      fetchTicket(state as TicketData);
+      fetchTicketData(state as LocationState);
     } else {
       setError('No ticket selected for editing');
     }
