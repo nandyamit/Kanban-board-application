@@ -11,7 +11,6 @@ import { sequelize } from './models/index.js';
 import { User } from './models/user.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -65,3 +64,4 @@ sequelize.sync({force: forceDatabaseRefresh}).then(async () => {
     console.log(`Server is listening on port ${PORT}`);
   });
 });
+

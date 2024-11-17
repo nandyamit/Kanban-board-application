@@ -1,176 +1,157 @@
-# 14 Full-Stack React: Kanban Board
+# Kanban Task Management App
+
+## Table of Contents
+1. [Description](#description)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Components](#components)
+7. [Pages](#pages)
+8. [API Modules](#api-modules)
+9. [Authentication](#authentication)
+10. [State Management](#state-management)
+11. [Error Handling and Loading States](#error-handling-and-loading-states)
+12. [Styling](#styling)
+13. [Technologies Used](#technologies-used)
+14. [Contributing](#contributing)
+15. [License](#license)
+16. [Contact](#contact)
+
+## Description
 
-## Your Task
+This Kanban Task Management App is a secure and efficient solution for organizing and tracking tasks using a Kanban board interface. It features JWT authentication for secure access and provides a user-friendly interface for managing tasks and users.
 
-Authentication with JSON Web Tokens (JWTs) is crucial for full-stack applications, as it provides a secure and scalable method for verifying user identities. JWTs are compact, URL-safe tokens that encode a user's authentication data, allowing servers to authenticate requests. Additionally, JWTs can include metadata and be easily verified and decoded, enhancing security while enabling seamless authentication across various parts of an application.
+## Features
 
-Your challenge is to add authentication with JWT to an existing Kanban board application.
+- User authentication using JSON Web Tokens (JWT)
+- Secure access to personal Kanban boards
+- Task (ticket) creation, retrieval, updating, and deletion
+- User state management including expiry of JWT due to inactivity
+- Swimlane-based Kanban board visualization
+- Responsive navigation with user profile menu
+- Protected routes for authenticated users
+- Detailed ticket cards with status indicators and assignee information
+- Search, filter, and sort functionality for tickets
+- Create and edit ticket forms with real-time updates
+- Error handling and loading states for improved user experience
 
-The Kanban board application has already been created. It's your job to complete the UI for the login page, add authentication with JWT to the server API, and then deploy the entire application to Render.
+## Installation
 
-## User Story
+1. Clone the repository:
+   ```
+   git clone https://github.com/nandyamit/Kanban-board-application
+   ```
 
-```md
-AS A registered user
+2. Navigate to the project directory:
+   ```
+   cd kanban-app
+   ```
 
-I WANT to authenticate using JSON Web Tokens (JWT)
+3. Install dependencies:
+   ```
+   npm install
+   ```
 
-SO THAT I can securely access and manage my tasks on the Kanban board
-```
+4. Set up environment variables:
+   Create a `.env` file in the root directory and add the following:
+   ```
+   API_BASE_URL=your_api_base_url
+   ```
 
-## Acceptance Criteria
+5. Run the application:
+   ```
+   npm start
+   ```
 
-```md
-GIVEN a login page with form inputs for username and password
+## Usage
 
-WHEN I enter my valid username and password
+1. Open your web browser and navigate to the application URL.
+2. Log in with your credentials on the Login page.
+3. Once authenticated, you'll see the Kanban board with your tasks organized in swimlanes.
+4. Use the "New Ticket" button to create new tasks.
+5. Edit or delete existing tickets by clicking on the respective options on each ticket card.
+6. Use the search bar, status filter, and sort options to organize and find specific tickets.
+7. Navigate between different pages using the navbar.
 
-THEN I am authenticated using JSON Web Tokens (JWT) and redirected to the main Kanban board page
+## Components
 
-WHEN I enter an invalid username or password
+### Navbar
+Navigation component with user authentication status and menu.
 
-THEN I am presented with an error message indicating that the credentials are incorrect
+### ProtectedRoute
+Ensures routes are only accessible to authenticated users.
 
-WHEN I successfully log in
+### Swimlane
+Represents a column in the Kanban board, displaying tickets of a specific status.
 
-THEN a JWT is stored securely in the client's local storage for subsequent authenticated requests
+### TicketCard
+Displays individual ticket information with edit and delete options.
 
-WHEN I log out
+## Pages
 
-THEN the JWT is removed from the client's local storage and I am redirected to the login page
+### Board
+Main page displaying the Kanban board with all tickets. Includes search, filter, and sort functionality.
 
-WHEN I try to access the Kanban board page without being authenticated
+### CreateTicket
+Form page for creating new tickets with fields for name, description, status, and assigned user.
 
-THEN I am redirected to the login page
+### EditTicket
+Form page for editing existing tickets, pre-populated with current ticket data.
 
-WHEN I remain inactive for a defined period
+### ErrorPage
+404 page displayed when a route is not found.
 
-THEN my session expires, the JWT is invalidated, and I am redirected to the login page upon my next action
-```
+### Login
+Authentication page for user login.
 
-## Mock-Up
+## API Modules
 
-The following images show the web application's appearance and functionality:
+### authAPI
+Handles user authentication.
 
-![The Kanban board application displays a Login Required page.](./Assets/14-00-unauthenticated-page.png)
+### ticketAPI
+Manages CRUD operations for tickets.
 
-![The Kanban board application displays a Login page.](./Assets/14-01-login-page.png)
+### userAPI
+Handles user-related operations.
 
-![The Kanban board application includes a main page that displays a list of all tasks sorted into three columns according their statuses.](./Assets/14-02-main-page.png)
+## Authentication
 
-## Getting Started
+The app uses JSON Web Tokens (JWT) for authentication. The `Auth` utility in `utils/auth.ts` provides methods for login status checking, token retrieval, and user profile management.
 
-The starter code provides a complete, working full-stack application without authentication.
+## State Management
 
-You will need to:
+The application uses React's built-in state management with hooks (useState, useEffect) for local component state and API data fetching.
 
-* Create a `.env` file for the server that includes:
+## Error Handling and Loading States
 
-  * A username for the database
+Each component and page includes error handling and loading states to provide a smooth user experience and clear feedback on operations.
 
-  * A password for the database
+## Styling
 
-  * A secret key for the JWT (this can be any random string)
+The application uses custom CSS classes for styling components. Each component and page has specific classes for layout and visual design, ensuring a consistent and user-friendly interface.
 
-* Complete the `authenticateToken` method in `server/src/middleware/auth.ts`
+## Technologies Used
 
-* Complete the login method in `server/src/routes/auth-routes.ts`
+- Frontend: React.js with TypeScript
+- Routing: React Router
+- API Communication: Fetch API
+- Authentication: JSON Web Tokens (JWT)
+- State Management: React Hooks (useState, useEffect, useRef)
+- Styling: Custom CSS with responsive design
 
-* Add authentication to the API routes in `server/src/routes/index.ts`
+## Contributing
 
-* Complete the login method in `client/src/api/authAPI.tsx`
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-* Complete the methods of the `AuthService` in `client/src/utils/auth.ts`
+## License
 
-You can refer to the [Full-Stack Blog on deploying to Render](https://coding-boot-camp.github.io/full-stack/render/render-deployment-guide) and the [Render documentation on setting environment variables](https://docs.render.com/configure-environment-variables) as needed.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
----
+## Contact
 
-## 💡 Hints
-
-* Use Insomnia to test the server API directly.
-
-  * The `Assets` folder contains an `Insomnia_M14_Challenge.json` file that you can use to import a request collection into Insomnia.
-
-## 🏆 Bonus
-
-As a bonus exercise, try adding the capability to sort and filter the list of tickets.
-
----
-
-## Grading Requirements
-
-> **note** If a Challenge assignment submission is marked as “0”, it's considered incomplete and won't count toward your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code.
->
-> * A repository that includes a unique name but nothing else.
->
-> * A repository that includes a README file but nothing else.
->
-> * A repository that includes only starter code.
-
-This Challenge is graded based on the following criteria:
-
-### Technical Acceptance Criteria: 40%
-
-The Challenge satisfies all of the above acceptance criteria, plus the following:
-
-* Application server API verifies login requests, creates and signs tokens, and validates that API requests for tickets and users include an authenticated token
-
-* Application client stores tokens in `localStorage` and passes tokens with each request to the server API
-
-* Application must be deployed to Render
-
-### Deployment: 32%
-
-The Challenge satisfies all of the above acceptance criteria, plus the following:
-
-* Application deployed at live URL
-
-* Application loads with no errors
-
-* Application GitHub URL submitted
-
-* GitHub repository that contains application code
-
-### Application Quality: 15%
-
-The Challenge satisfies all of the above acceptance criteria, plus the following:
-
-* Application user experience is intuitive and easy to navigate
-
-* Application user interface style is clean and polished
-
-* Application resembles the mock-up functionality provided in the Challenge instructions
-
-### Repository Quality: 13%
-
-The Challenge satisfies all of the above acceptance criteria, plus the following:
-
-* Repository has a unique name
-
-* Repository follows best practices for file structure and naming conventions
-
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
-
-* Repository contains multiple descriptive commit messages
-
-* Repository contains quality README file with description, screenshot, and link to deployed application
-
-### Bonus: +10 Points
-
-Fulfilling the following can add up to 10 points to your grade (but note that the highest grade you can achieve is still 100):
-
-* Application allows users to sort and filter tickets
-
-## Review
-
-You're required to submit BOTH of the following for review:
-
-* The URL of the functional, deployed application
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README file describing the project
-
----
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+Amit Nandy - nandyamit.in@gmail.com
