@@ -4,7 +4,7 @@ const forceDatabaseRefresh = false;
 import dotenv from 'dotenv';
 dotenv.config();
 import { safeSeed } from './seeds/production-seed.js';  // Add this import
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import routes from './routes/index.js';
 import { sequelize } from './models/index.js';
@@ -25,8 +25,10 @@ app.use(cors({
 }));
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+  console.log(`${_req.method} ${_req.path}`);
+  next();
+});
 
 // Log all requests
 app.use((_req, _res, next) => {
@@ -42,7 +44,7 @@ app.use('/assets', express.static(path.join(__dirname, '../../client/dist/assets
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 // Handle React routing
-app.get('*', (_req, res) => {
+app.get('*', (_req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
 });
 
