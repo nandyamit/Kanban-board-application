@@ -1,16 +1,11 @@
-// server/src/server.ts
-const forceDatabaseRefresh = false;
-
-import dotenv from 'dotenv';
-dotenv.config();
-import { safeSeed } from './seeds/production-seed.js';  // Add this import
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
 import routes from './routes/index.js';
 import { sequelize } from './models/index.js';
 import { User } from './models/user.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -19,16 +14,14 @@ const PORT = process.env.PORT || 3001;
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:5173', 'http://localhost:3000'], // Add your client URLs
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Middleware
-app.use((_req: Request, _res: Response, next: NextFunction) => {
-  console.log(`${_req.method} ${_req.path}`);
-  next();
-});
+// Important: Add these before routes
+app.use(express.json());  // for parsing application/json
+app.use(express.urlencoded({ extended: true }));  // for parsing application/x-www-form-urlencoded
 
 // Log all requests
 app.use((_req, _res, next) => {
@@ -44,21 +37,15 @@ app.use('/assets', express.static(path.join(__dirname, '../../client/dist/assets
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 // Handle React routing
-app.get('*', (_req: Request, res: Response) => {
+app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
 });
 
 // Database connection and server start
-sequelize.sync({force: forceDatabaseRefresh}).then(async () => {
+sequelize.sync({force: false}).then(async () => {
   console.log('Database connected');
   
   try {
-    // Run safe seeding if in production
-    if (process.env.NODE_ENV === 'production') {
-      await safeSeed();
-    }
-    
-    // Check for seeded user
     const user = await User.findOne({ 
       where: { username: 'JollyGuru' },
       attributes: ['id', 'username']

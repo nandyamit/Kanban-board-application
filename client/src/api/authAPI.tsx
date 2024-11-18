@@ -1,10 +1,10 @@
 // client/src/api/authAPI.tsx
-import { API_BASE_URL } from "../utils/config";
 import { UserLogin } from "../interfaces/UserLogin";
+import { API_URL } from '../config';
 
 const login = async (userInfo: UserLogin) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
