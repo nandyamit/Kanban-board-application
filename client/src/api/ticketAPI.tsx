@@ -1,23 +1,20 @@
 // client/src/api/ticketAPI.tsx
-import { API_BASE_URL } from '../utils/config';
-import Auth from '../utils/auth';
+import { API_URL } from '../config';
 import { TicketData } from '../interfaces/TicketData';
+import { ApiMessage } from '../interfaces/ApiMessage';
 
-const getAuthHeaders = () => ({
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${Auth.getToken()}`
-});
-
-const retrieveTickets = async () => {
+export const retrieveTickets = async (): Promise<TicketData[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/tickets`, {
-      headers: getAuthHeaders()
+    const response = await fetch(`${API_URL}/api/tickets`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
     });
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch tickets');
     }
-
+    
     return response.json();
   } catch (error) {
     console.error('Error fetching tickets:', error);
@@ -25,16 +22,18 @@ const retrieveTickets = async () => {
   }
 };
 
-const retrieveTicket = async (id: number) => {
+export const retrieveTicket = async (id: number): Promise<TicketData> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
-      headers: getAuthHeaders()
+    const response = await fetch(`${API_URL}/api/tickets/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
     });
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch ticket');
     }
-
+    
     return response.json();
   } catch (error) {
     console.error('Error fetching ticket:', error);
@@ -42,66 +41,36 @@ const retrieveTicket = async (id: number) => {
   }
 };
 
-const createTicket = async (ticketData: TicketData) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/tickets`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(ticketData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to create ticket');
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error('Error creating ticket:', error);
-    throw error;
-  }
+export const createTicket = async (ticketData: Partial<TicketData>): Promise<ApiMessage> => {
+  const response = await fetch(`${API_URL}/api/tickets`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(ticketData)
+  });
+  return response.json();
 };
 
-const updateTicket = async (id: number, ticketData: TicketData) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
-      method: 'PUT',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(ticketData)
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update ticket');
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error('Error updating ticket:', error);
-    throw error;
-  }
+export const updateTicket = async (id: number, ticketData: Partial<TicketData>): Promise<ApiMessage> => {
+  const response = await fetch(`${API_URL}/api/tickets/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(ticketData)
+  });
+  return response.json();
 };
 
-const deleteTicket = async (id: number) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/tickets/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders()
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to delete ticket');
+export const deleteTicket = async (id: number): Promise<ApiMessage> => {
+  const response = await fetch(`${API_URL}/api/tickets/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
-
-    return response.json();
-  } catch (error) {
-    console.error('Error deleting ticket:', error);
-    throw error;
-  }
-};
-
-export { 
-  retrieveTickets, 
-  retrieveTicket, 
-  createTicket, 
-  updateTicket, 
-  deleteTicket 
+  });
+  return response.json();
 };

@@ -1,16 +1,17 @@
 // client/src/api/userAPI.tsx
-import { API_BASE_URL } from '../utils/config';
+import { API_URL } from '../config';
 import Auth from '../utils/auth';
 import { UserData } from '../interfaces/UserData';
+import { ApiMessage } from '../interfaces/ApiMessage';
 
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${Auth.getToken()}`
 });
 
-const retrieveUsers = async () => {
+export const retrieveUsers = async (): Promise<UserData[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users`, {
+    const response = await fetch(`${API_URL}/api/users`, {
       headers: getAuthHeaders()
     });
 
@@ -25,9 +26,9 @@ const retrieveUsers = async () => {
   }
 };
 
-const getUser = async (id: number) => {
+export const getUser = async (id: number): Promise<UserData> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
+    const response = await fetch(`${API_URL}/api/users/${id}`, {
       headers: getAuthHeaders()
     });
 
@@ -42,9 +43,9 @@ const getUser = async (id: number) => {
   }
 };
 
-const updateUser = async (id: number, userData: UserData) => {
+export const updateUser = async (id: number, userData: UserData): Promise<ApiMessage> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
+    const response = await fetch(`${API_URL}/api/users/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(userData)
@@ -60,5 +61,3 @@ const updateUser = async (id: number, userData: UserData) => {
     throw error;
   }
 };
-
-export { retrieveUsers, getUser, updateUser };

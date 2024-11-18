@@ -6,6 +6,8 @@ import { updateTicket, retrieveTicket } from '../api/ticketAPI';  // Make sure t
 import { TicketData } from '../interfaces/TicketData';
 import { ApiMessage } from '../interfaces/ApiMessage';
 
+
+
 interface LocationState {
   id: number;
   [key: string]: unknown;

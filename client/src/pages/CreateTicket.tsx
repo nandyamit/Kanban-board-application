@@ -12,7 +12,7 @@ const CreateTicket = () => {
     name: '',
     description: '',
     status: 'Todo',
-    assignedUserId: 1,
+    assignedUserId: undefined,  // Changed this line
     assignedUser: null
   });
 
@@ -25,8 +25,11 @@ const CreateTicket = () => {
     try {
       const data = await retrieveUsers();
       setUsers(data);
-      if (data.length > 0 && !newTicket.assignedUserId) {
-        setNewTicket(prev => ({ ...prev, assignedUserId: data[0].id }));
+      if (data.length > 0) {
+        setNewTicket(prevTicket => ({
+          ...prevTicket,
+          assignedUserId: data[0].id || undefined
+        }));
       }
     } catch (err) {
       setError('Failed to load users');

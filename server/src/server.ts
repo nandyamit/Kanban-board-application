@@ -14,7 +14,11 @@ const PORT = process.env.PORT || 3001;
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Add your client URLs
+  origin: [
+    'https://kanban-board-application-7bc1.onrender.com', // Production URL
+    'http://localhost:5173',  // Local development URL
+    'http://localhost:3000'   // Alternative local URL
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
