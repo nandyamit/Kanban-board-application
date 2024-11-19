@@ -1560,3 +1560,91 @@ body {
     height: 150px;
   }
 }
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.modal-content {
+  margin-bottom: 24px;
+}
+
+.modal-content p {
+  margin: 8px 0;
+  color: #4a5568;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.warning-icon, .error-icon {
+  font-size: 1.5rem;
+}
+
+/* Add to your existing modal styles */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.animate-button.danger {
+  background-color: #dc2626;
+  color: white;
+}
+
+.animate-button.danger:hover {
+  background-color: #b91c1c;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #1f2937;
+  padding: 8px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+}
+
+/* Ensure modal content is centered */
+.modal-content {
+  text-align: center;
+  margin: 20px 0;
+}

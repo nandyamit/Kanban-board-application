@@ -43,10 +43,14 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     const token = jwt.sign(
       { 
         id: user.id,
-        username: user.username 
+        username: user.username,
+        iat: Math.floor(Date.now() / 1000)  // Added: explicit issued at time
       },
       process.env.JWT_SECRET,
-      { expiresIn: '2h' }
+      { 
+        expiresIn: '2h',  // Keep your 2-hour absolute expiration
+        notBefore: 0  // Token is valid immediately
+      }
     );
 
     console.log('Login successful for user:', username);
@@ -59,7 +63,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       }
     });
 
-  } catch (error: any) { // Type assertion for error
+  } catch (error: any) {
     console.error('Login error:', error);
     return res.status(500).json({ 
       message: 'Server error during login',

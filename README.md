@@ -76,7 +76,7 @@ This Kanban Task Management App is a secure and efficient solution for organizin
 ## Components
 
 ### Navbar
-Navigation component with user authentication status and menu.
+Navbar allows user to view user logged in and logout functions
 
 ### ProtectedRoute
 Ensures routes are only accessible to authenticated users.
@@ -92,17 +92,22 @@ Displays individual ticket information with edit and delete options.
 ### Board
 Main page displaying the Kanban board with all tickets. Includes search, filter, and sort functionality.
 
+
 ### CreateTicket
 Form page for creating new tickets with fields for name, description, status, and assigned user.
+
 
 ### EditTicket
 Form page for editing existing tickets, pre-populated with current ticket data.
 
+
 ### ErrorPage
 404 page displayed when a route is not found.
 
+
 ### Login
 Authentication page for user login.
+
 
 ## API Modules
 
