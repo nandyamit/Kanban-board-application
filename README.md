@@ -3,6 +3,8 @@
 ## Table of Contents
 1. [Description](#description)
 2. [Features](#features)
+3. [Live Demo](#livedemo)
+4. [Screenshot](#screenshot)
 3. [Installation](#installation)
 4. [Usage](#usage)
 5. [Components](#components)
@@ -34,6 +36,16 @@ This Kanban Task Management App is a secure and efficient solution for organizin
 - Search, filter, and sort functionality for tickets
 - Create and edit ticket forms with real-time updates
 - Error handling and loading states for improved user experience
+
+## Live Demo
+https://kanban-board-application-7bc1.onrender.com/login
+
+## Screenshot
+![Login Page](image.png)
+![ToDo Board](image-1.png)
+![Create Todo](image-2.png)
+![Edit Todo](image-3.png)
+![Confirm Delete](image-4.png)
 
 ## Installation
 
