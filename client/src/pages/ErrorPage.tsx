@@ -10,7 +10,7 @@ const ErrorPage = () => {
       <div className="error-content">
         <div className="error-icon">404</div>
         <h1>Page Not Found</h1>
-        <p>The page you're looking for doesn't exist or has been moved.</p>
+        <p>You will see this error in case you have been inactive for a while. It can also happen if the page you're looking for doesn't exist or has been moved. Try to logout and re-login to resolve the issue.</p>
         <div className="error-actions">
           <Link 
             to={isLoggedIn ? "/" : "/login"}
